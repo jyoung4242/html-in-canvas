@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Excalibur + HTML-in-Canvas</title>
+    <style>
+      html, body { margin: 0; background: #0e1016; color: #cfd6e4; font: 13px/1.4 system-ui, sans-serif; }
+      #stage { position: relative; width: 800px; height: 600px; margin: 16px auto 0; }
+      #game { position: absolute; inset: 0; width: 800px; height: 600px; display: block; }
+
+      /* UI canvas sits over the game canvas, same CSS pixel space (DisplayMode.Fixed). */
+      #ui-canvas { position: absolute; left: 16px; top: 16px; width: 320px; height: 180px; }
+
+      /* The DOM panel that gets painted into #ui-canvas. */
+      #panel {
+        box-sizing: border-box; width: 320px; height: 180px; padding: 14px;
+        background: rgba(30, 36, 52, 0.92); border: 2px solid #7aa2ff; border-radius: 12px;
+        display: flex; flex-direction: column; gap: 10px; color: #e8eeff;
+      }
+      #panel h2 { margin: 0; font-size: 15px; letter-spacing: .04em; }
+      #panel .row { display: flex; gap: 8px; }
+      #panel button {
+        font: inherit; font-weight: 600; color: #0e1016; background: #7aa2ff;
+        border: 0; border-radius: 8px; padding: 8px 12px; cursor: pointer;
+        transition: background .12s, transform .12s;
+      }
+      #panel button:hover { background: #a8c1ff; }
+      #panel button:active { background: #5a82e0; }
+      #panel button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+      #panel input { font: inherit; padding: 6px 8px; border-radius: 6px; border: 1px solid #44507a; background: #141a2a; color: #e8eeff; }
+
+      #status { width: 800px; margin: 10px auto; white-space: pre-wrap; }
+      kbd { background: #222a40; padding: 1px 6px; border-radius: 4px; }
+    </style>
+  </head>
+  <body>
+    <div id="stage">
+      <canvas id="game"></canvas>
+
+      <canvas id="ui-canvas" width="320" height="180">
+        <!-- Child of the drawable canvas. Real DOM: focusable, accessible, styled with CSS.
+             If the API is unsupported, this renders as normal fallback content. -->
+        <div id="panel">
+          <h2>HTML-in-Canvas panel</h2>
+          <div class="row">
+            <button id="btn-spawn" type="button">Spawn ball</button>
+            <button id="btn-count" type="button">Clicked: 0</button>
+          </div>
+          <input id="name-input" placeholder="type here (real input)" />
+        </div>
+      </canvas>
+    </div>
+    <pre id="status"></pre>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
